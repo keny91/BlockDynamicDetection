@@ -51,6 +51,7 @@ public:
 	void CreateFilteredImage(Mat HSVImage, bool display = false);
 	void UpdatePoint2DUsingMoments(Mat imgline, bool draw);
 	static void SetColorRangeHSV(Vec3i pixel, Vec3i*MaxValue, Vec3i* MinValue);
+	//static void CreateFilteredImage(Mat *Image, Mat* OutputImage, Vec3i color);
 	static void GetColorFilteredImage(Vec3i color, Mat * output, Mat * inputHSV);
 };
 

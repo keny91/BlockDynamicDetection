@@ -51,19 +51,18 @@ CVFunctions::~CVFunctions()
 
 
  // morphological opening (removes small objects from the foreground)
-Mat CVFunctions::MorphologyOpenMat(Mat image, int maskSize) {
-	erode(image, image, getStructuringElement(MORPH_ELLIPSE, Size(maskSize, maskSize)));
-	dilate(image, image, getStructuringElement(MORPH_ELLIPSE, Size(maskSize, maskSize)));
-	return image;
+void CVFunctions::MorphologyOpenMat(Mat* image, Mat *OutputImage,int maskSize) {
+	erode(*image, *OutputImage, getStructuringElement(MORPH_ELLIPSE, Size(maskSize, maskSize)));
+	dilate(*OutputImage, *OutputImage, getStructuringElement(MORPH_ELLIPSE, Size(maskSize, maskSize)));
+
  }
 
 
 
 // morphological closing (removes small holes from the foreground)
-Mat CVFunctions::MorphologyCloseMat(Mat image , int maskSize) {
-	dilate(image, image, getStructuringElement(MORPH_ELLIPSE, Size(maskSize, maskSize)));
-	erode(image, image, getStructuringElement(MORPH_ELLIPSE, Size(maskSize, maskSize)));
-	return image;
+void CVFunctions::MorphologyCloseMat(Mat* image, Mat *OutputImage, int maskSize) {
+	dilate(*image, *OutputImage, getStructuringElement(MORPH_ELLIPSE, Size(maskSize, maskSize)));
+	erode(*OutputImage, *OutputImage, getStructuringElement(MORPH_ELLIPSE, Size(maskSize, maskSize)));
  }
 
 
@@ -79,10 +78,38 @@ Vec3i CVFunctions::GetPixelInfo(Mat TargetImage, int x, int y ,bool displayConso
 	return pixel;
 }
 
-
 //
-Mat CVFunctions::CreateFilteredImage(Mat Image) {
+void CVFunctions::CropImage(Mat theimage, Mat* theOutput ,Rect internalFrame) {
+	*theOutput = theimage(internalFrame);
+
+}
+// 
+
+Rect CVFunctions::DetermineCenteredRectangle(Mat theimage, int x, int y) {
+	
+	Size s = theimage.size();
+	int Yo = s.height;
+	int Xo = s.width;
+
+	int Xdist = (Xo - x) / 2;
+	int Ydist = (Yo - y) / 2;
+	Rect intFrame(Xdist, Ydist, x, y);
+	return intFrame;
 
 }
 
-// 
+
+
+// This automatically detects the number of pixels that should
+Rect CVFunctions::CreateStandardCenteredSquare(Mat theimage, float VerticalScreenPercent) {
+	Size s = theimage.size();
+	int Yo = s.height;
+	float YoF = (float)Yo;
+	//int Xo = s.width;
+	int y = (int)(VerticalScreenPercent * YoF);
+	int x = y;
+	Rect estim = DetermineCenteredRectangle(theimage, x, y);
+
+	return estim;
+
+}

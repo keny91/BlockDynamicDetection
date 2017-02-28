@@ -9,9 +9,14 @@ int * state = new int();
 int clickedX = 0;
 int clickedY = 0;
 
+Bridge* bridgeElements;
+HorizontalBlock * horizontalElements;
+VerticalBlock * verticalElements;
+
+
 int main() {
 	Mat image;          //Create Matrix to store image
-	Mat capture, dst;
+	Mat capture, dst, postMorhp;
 	VideoCapture cap;          //initialize capture
 	cap.open(1);
 	char* windowName = "window";
@@ -84,12 +89,13 @@ int main() {
 
 			capture = image;
 
-			Mat imgHSV, theFilteredImage;
+			Mat imgHSV, theFilteredImage, croppedImage;
 			cvtColor(capture, imgHSV, COLOR_BGR2HSV); //Convert the captured frame from BGR to HSV
 
 
 			/// Create a matrix of the same type and size as src (for dst)
 			dst.create(capture.size(), capture.type());
+
 			dst = CVFunctions::GetEdges(capture);
 
 			// Vec3i a = CVFunctions::GetPixelInfo(image,  clickedX, clickedY, true);
@@ -100,14 +106,22 @@ int main() {
 			cvtColor(image, imgHSV, COLOR_BGR2HSV);
 			Vec3i colorValue = CVFunctions::GetPixelInfo(imgHSV, clickedX, clickedY, true);
 			ColorTracking::GetColorFilteredImage(colorValue, &imgHSV, &theFilteredImage);
-
+			imshow(captureName, theFilteredImage);
 
 			//morphological opening (removes small objects from the foreground)
-			//dst = CVFunctions::MorphologyCloseMat(dst);
-			//dst = CVFunctions::MorphologyOpenMat(dst);
+			
+			CVFunctions::MorphologyCloseMat(&theFilteredImage, &postMorhp,10);
+			CVFunctions::MorphologyOpenMat(&theFilteredImage, &theFilteredImage, 10);
+
+			// Experiment with
+			Rect intFrame = CVFunctions::CreateStandardCenteredSquare(image, 0.75);
+			CVFunctions::CropImage(image, &croppedImage, intFrame);
 
 
-			imshow(captureName, theFilteredImage);
+
+			namedWindow("PostMorphologys", 1);
+			cout << "New image size: " <<croppedImage.size() << endl;
+			imshow("PostMorphologys", theFilteredImage);
 		}
 	}
 
@@ -144,21 +158,3 @@ void CallBackFunc(int event, int x, int y, int flags, void* userdata)
 }
 
 
-struct blockType{
-	int typeId;
-	int squareSize;
-	Vec2i * listOfCoordinates;
-	Vec3b color;
-
-};
-
-typedef struct blockType Block;
-
-struct Bridge : Block {
-	Bridge() {
-		typeId = 3;
-		squareSize = 5;
-		listOfCoordinates = new Vec2i[squareSize];
-	}
-
-};

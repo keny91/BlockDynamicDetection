@@ -72,8 +72,6 @@ void ColorTracking::SetColorRangeHSV(Vec3i value, Vec3i* MaxValue, Vec3i* MinVal
 
 void ColorTracking::GetColorFilteredImage(Vec3i color, Mat * inputHSV, Mat *  output) {
 
-	
-	
 	Vec3i MaxA = Vec3i();
 	Vec3i MinA = Vec3i();
 	ColorTracking::SetColorRangeHSV(color, &MaxA, &MinA);
@@ -81,7 +79,6 @@ void ColorTracking::GetColorFilteredImage(Vec3i color, Mat * inputHSV, Mat *  ou
 	// Debugging info.
 	//cout << "MAX:  " << MaxA[0] << MaxA[1] << MaxA[2] << endl;
 	//cout << "MIN:  " << MinA[0] << MinA[1] << MinA[2] << endl;
-
 
 	inRange(*inputHSV, MinA, MaxA, *output);
 

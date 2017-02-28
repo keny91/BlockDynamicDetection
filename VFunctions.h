@@ -9,6 +9,7 @@
 #include ".\opencv2\imgproc\imgproc.hpp"
 #include ".\opencv2\imgproc.hpp"
 
+
 #include <iostream>
 
 
@@ -22,10 +23,12 @@ public:
 	~CVFunctions();
 
 	static Mat GetEdges(Mat src_gray);
-	static Mat MorphologyOpenMat(Mat image, int maskSize = 5);
-	static Mat MorphologyCloseMat(Mat image, int maskSize = 5);
+	static void MorphologyOpenMat(Mat* image, Mat *OutputImage, int maskSize = 5);
+	static void MorphologyCloseMat(Mat* image, Mat *OutputImage, int maskSize = 5);
 	static Vec3i GetPixelInfo(Mat TargetImage, int x, int y, bool displayConsoleInfo = false);
-	static Mat CreateFilteredImage(Mat Image);
+	static void CropImage(Mat image, Mat* Outputimage, Rect internalFrame);
+	static Rect DetermineCenteredRectangle(Mat theimage, int x, int y);
+	static Rect CreateStandardCenteredSquare(Mat theimage, float VerticalScreenPercent);
 };
 
 
