@@ -27,12 +27,18 @@
     <ClCompile Include="BlockTypes.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
+    <ClCompile Include="VirtualBoard.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VFunctions.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="ColorTracking.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="VirtualBoard.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

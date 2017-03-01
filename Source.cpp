@@ -1,6 +1,7 @@
 
 #include "VFunctions.h"
 #include "ColorTracking.h"
+#include "VirtualBoard.h"
 
 void CallBackFunc(int event, int x, int y, int flags, void* userdata);
 
@@ -9,12 +10,17 @@ int * state = new int();
 int clickedX = 0;
 int clickedY = 0;
 
-Bridge* bridgeElements;
-HorizontalBlock * horizontalElements;
-VerticalBlock * verticalElements;
+
+
+//Bridge* bridgeElements;
+//HorizontalBlock * horizontalElements;
+//VerticalBlock * verticalElements;
 
 
 int main() {
+
+
+
 	Mat image;          //Create Matrix to store image
 	Mat capture, dst, postMorhp;
 	VideoCapture cap;          //initialize capture
@@ -29,6 +35,18 @@ int main() {
 	Mat RedFiltImg = Mat::zeros(image.size(), CV_8UC3);
 	Mat BlueFiltImg = Mat::zeros(image.size(), CV_8UC3);
 	Mat GreenFiltImg = Mat::zeros(image.size(), CV_8UC3);
+
+	// Create all possible block samples
+	_Bridge bridgeBlock = _Bridge();
+	_HorizontalBlock HBlock = _HorizontalBlock();
+	_VerticalBlock VBlock = _VerticalBlock();
+
+	//_Bridge  a;
+	//BridgeStruct a = BridgeStruct();
+
+	
+	cout << "AAAAAAAAA: " << HBlock.listOfCoordinates[3] << endl;
+
 
 
 
@@ -56,6 +74,7 @@ int main() {
 		Red 160-179
 		*/
 
+		/*
 		// Red elements filtering
 		int iLowHR = 170;
 		int iHighHR = 179;
@@ -68,18 +87,13 @@ int main() {
 		int iLowHG = 20;
 		int iHighHG = 75;
 
-		/*
-		int iLowH = 0;
-		int iHighH = 255;
-		*/
-
 		int iLowS = 119;  // original 150
 		int iHighS = 255;
 
 		int iLowV = 60;
 		int iHighV = 255;
 
-
+		*/
 
 
 
@@ -102,10 +116,17 @@ int main() {
 			//cout << "Cam Resolution: " << dst.size() << endl;
 			namedWindow(captureName, 1);
 
-			
+
+			// get HSV value of pixel
 			cvtColor(image, imgHSV, COLOR_BGR2HSV);
 			Vec3i colorValue = CVFunctions::GetPixelInfo(imgHSV, clickedX, clickedY, true);
-			ColorTracking::GetColorFilteredImage(colorValue, &imgHSV, &theFilteredImage);
+
+			// Crop the image to a reduced size at the center position
+			Rect intFrame = CVFunctions::CreateStandardCenteredSquare(imgHSV, 0.75);
+			CVFunctions::CropImage(imgHSV, &croppedImage, intFrame);
+
+			// Do color filtering
+			ColorTracking::GetColorFilteredImage(colorValue, &croppedImage, &theFilteredImage);
 			imshow(captureName, theFilteredImage);
 
 			//morphological opening (removes small objects from the foreground)
@@ -113,15 +134,13 @@ int main() {
 			CVFunctions::MorphologyCloseMat(&theFilteredImage, &postMorhp,10);
 			CVFunctions::MorphologyOpenMat(&theFilteredImage, &theFilteredImage, 10);
 
-			// Experiment with
-			Rect intFrame = CVFunctions::CreateStandardCenteredSquare(image, 0.75);
-			CVFunctions::CropImage(image, &croppedImage, intFrame);
 
-
+			VirtualBoard theBoard = VirtualBoard();
+			theBoard.FindConnectedElements(50, &bridgeBlock, theFilteredImage);
 
 			namedWindow("PostMorphologys", 1);
 			cout << "New image size: " <<croppedImage.size() << endl;
-			imshow("PostMorphologys", theFilteredImage);
+			imshow("PostMorphologys", image);
 		}
 	}
 

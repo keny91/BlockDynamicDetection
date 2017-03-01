@@ -15,6 +15,7 @@ CVFunctions::~CVFunctions()
 }
 
 
+// Extract the edges of the given image, the thresholds have been hardcoded for this version of the code
  Mat CVFunctions::GetEdges(Mat src) {
 
 
@@ -66,7 +67,7 @@ void CVFunctions::MorphologyCloseMat(Mat* image, Mat *OutputImage, int maskSize)
  }
 
 
-// 
+// Gather the vector values of the pixel. Display info if the flag indicates so.
 Vec3i CVFunctions::GetPixelInfo(Mat TargetImage, int x, int y ,bool displayConsoleInfo) {
 
 	cout << "clicked on: " << x << "," << y << endl;
@@ -78,13 +79,12 @@ Vec3i CVFunctions::GetPixelInfo(Mat TargetImage, int x, int y ,bool displayConso
 	return pixel;
 }
 
-//
+// Do the cropping opperation.
 void CVFunctions::CropImage(Mat theimage, Mat* theOutput ,Rect internalFrame) {
 	*theOutput = theimage(internalFrame);
-
 }
-// 
 
+// Given the values of the height and width of the internal frame
 Rect CVFunctions::DetermineCenteredRectangle(Mat theimage, int x, int y) {
 	
 	Size s = theimage.size();
@@ -113,3 +113,6 @@ Rect CVFunctions::CreateStandardCenteredSquare(Mat theimage, float VerticalScree
 	return estim;
 
 }
+
+
+

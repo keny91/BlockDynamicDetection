@@ -1,77 +1,85 @@
 
-#include "VFunctions.h"
-
-struct blockType {
-protected:
-	virtual bool VerifyValidLocations();
+#include "VirtualBoard.h"
 
 
-public:  // change later to protected
-	int typeId;
-	int squareSize;
-	Vec2i * listOfCoordinates;
-	Vec3b color;
 
-	void SetCoordinates(Vec2i * NewCoors) {
-		for (int i = 0; i < squareSize; i++)
-			listOfCoordinates[i] = NewCoors[i];  // Maybe need decomposition
-	}
 
-	void setColor(Vec3i thecolor) {
-		color = thecolor; // again might need some ref
-	}
+void blockType::SetCoordinates(Vec2i * NewCoors) {
+	for (int i = 0; i < squareSize; i++)
+		listOfCoordinates[i] = NewCoors[i];  // Maybe need decomposition
+}
+
+void blockType::setColor(Vec3i thecolor) {
+	color = thecolor; // again might need some ref
+}
+
+
+
+/* 
+At this current time, we have 3 different types of blocks:
+
+		-> Horizontal
+		-> Vertical
+		-> Bridge
+
+*/
+
+bool blockType::VerifyValidLocations() {
 
 	
+	return false;
+}
 
-};
 
+/*  Bridge  */
 
-
-/* At this current time, we have 3 different types of blocks */
-
-struct Bridge : Block {
-	Bridge() {
+Bridge::Bridge() {
 		typeId = 3;
 		squareSize = 5;
 		listOfCoordinates = new Vec2i[squareSize];  // supposed to be an array of 5
-		
+		color = BridgeColor;
 	}
 
-	// Verifiy that the obtained locations are valid
-	bool VerifyValidLocations() {
+Bridge::~Bridge(){}
+
+	// Verify that the obtained locations are valid
+bool Bridge::VerifyValidLocations() {
 
 		return false;
 	}
 
-};
 
+/*  HorizontalBlock  */
 
-struct HorizontalBlock : Block {
-	HorizontalBlock() {
+HorizontalBlock::HorizontalBlock() {
 		typeId = 2;
 		squareSize = 3;
 		listOfCoordinates = new Vec2i[squareSize];  // supposed to be an array of 3
+		color = HorizontalColor;
 	}
+HorizontalBlock::~HorizontalBlock() {}
 
-
-	// Verifiy that the obtained locations are valid
-	bool VerifyValidLocations() {
+	// Verify that the obtained locations are valid
+	bool HorizontalBlock::VerifyValidLocations() {
 
 		return false;
 	}
-};
 
-struct VerticalBlock : Block {
-	VerticalBlock() {
+
+
+
+/*  VerticalBlock  */
+
+	VerticalBlock::VerticalBlock() {
 		typeId = 1;
 		squareSize = 1;
-		listOfCoordinates = new Vec2i[squareSize];  // supposed to be an array of 3
+		listOfCoordinates = new Vec2i[squareSize];  // supposed to be an array of 1
+		color = VerticalColor;
 	}
+	VerticalBlock::~VerticalBlock() {}
 
-
-	// Verifiy that the obtained locations are valid
-	bool VerifyValidLocations() {
+	// Verify that the obtained locations are valid
+	bool VerticalBlock::VerifyValidLocations() {
 
 		return false;
 	}
-};

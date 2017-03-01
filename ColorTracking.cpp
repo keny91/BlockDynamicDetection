@@ -34,6 +34,9 @@ void ColorTracking::SetPixelArea(int minS, int maxS) {
 }
 
 
+
+/// <summary> Get the color values from a upper and lower threshold given a initial color HSV value.
+/// </summary>
 void ColorTracking::SetColorRangeHSV(Vec3i value, Vec3i* MaxValue, Vec3i* MinValue) {
 	// Pre-set variables
 	int MaxHuelimit = 179; // Limit for openCV
@@ -53,9 +56,6 @@ void ColorTracking::SetColorRangeHSV(Vec3i value, Vec3i* MaxValue, Vec3i* MinVal
 	if (LowerHue < 0)
 		LowerHue = 0;
 
-
-
-
 	MaxValue[0][0] = UpperHue;
 	MaxValue[0][1] = upperSat;
 	MaxValue[0][2] = upperValue;
@@ -70,6 +70,7 @@ void ColorTracking::SetColorRangeHSV(Vec3i value, Vec3i* MaxValue, Vec3i* MinVal
 }
 
 
+/* Get the color filtered image by getting the similar color tones. An create a segmentation using those reference tones. */
 void ColorTracking::GetColorFilteredImage(Vec3i color, Mat * inputHSV, Mat *  output) {
 
 	Vec3i MaxA = Vec3i();
@@ -91,9 +92,8 @@ void ColorTracking::GetColorFilteredImage(Vec3i color, Mat * inputHSV, Mat *  ou
 /// </param>
 /// <summary> Filter the image
 /// </summary>
-void ColorTracking::CreateFilteredImage(Mat HSVImage, bool display) {
+void ColorTracking::CreateFilteredImage(Mat BinaryImage, bool display) {
 	//cvtColor(imgOriginal, imgHSV, COLOR_BGR2HSV);
-	inRange(HSVImage, Scalar(iLowH, iLowS, iLowV), Scalar(iHighH, iHighS, iHighV), theFilteredImage);
 
 
 
@@ -104,7 +104,7 @@ void ColorTracking::CreateFilteredImage(Mat HSVImage, bool display) {
 	int largest_area = 0;
 	int largest_contour_index = 0;
 	Rect bounding_rect;
-	Mat dst(HSVImage.rows, HSVImage.cols, CV_8UC1, Scalar::all(0));
+	Mat dst(BinaryImage.rows, BinaryImage.cols, CV_8UC1, Scalar::all(0));
 
 
 	findContours(theFilteredImage, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE); // Find the contours in the image
@@ -113,7 +113,7 @@ void ColorTracking::CreateFilteredImage(Mat HSVImage, bool display) {
 
 	for (int i = 0; i< contours.size(); i++) // iterate through each contour. 
 	{
-		double a = contourArea(contours[i], false);  //  Find the area of contour
+		double a = contourArea(contours[i], false);  //  Find the area of contour // A contour is a one dimensional array
 		if (a>largest_area) {
 			largest_area = a;
 			largest_contour_index = i;                //Store the index of largest contour

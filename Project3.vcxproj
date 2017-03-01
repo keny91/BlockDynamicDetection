@@ -127,10 +127,12 @@
     <ClCompile Include="ColorTracking.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="VFunctions.cpp" />
+    <ClCompile Include="VirtualBoard.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ColorTracking.h" />
     <ClInclude Include="VFunctions.h" />
+    <ClInclude Include="VirtualBoard.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

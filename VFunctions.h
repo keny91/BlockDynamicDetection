@@ -31,14 +31,3 @@ public:
 	static Rect CreateStandardCenteredSquare(Mat theimage, float VerticalScreenPercent);
 };
 
-
-// Declaration of Block structs
-
-struct blockType;
-typedef struct blockType Block;
-struct Bridge;
-typedef struct Bridge Bridge;
-struct HorizontalBlock;
-typedef struct HorizontalBlock HorizontalBlock;
-struct VerticalBlock;
-typedef struct VerticalBlock VerticalBlock;
