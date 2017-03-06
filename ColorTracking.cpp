@@ -185,26 +185,9 @@ void ColorTracking::UpdatePoint2DUsingMoments(Mat imgline, bool draw) {
 }
 
 
+void ColorTracking::FilterBWbyThreshold(Mat* InputImage, Mat* OutputBW, int TH) {
 
-/*
-void JointLink::ConnectJoints(Joint* An, Joint* Bn) {
-
-	A = An;
-	B = Bn;
-	Connected = true;
-	color = Scalar(140, 300, 140);
+	cvtColor(*InputImage, *OutputBW, COLOR_BGR2GRAY);
+	// Apply thresholding;
+	threshold(*OutputBW, *OutputBW, 150, 255, CV_THRESH_BINARY);
 }
-
-
-void JointLink::DrawLink(Mat imgLine) {
-
-
-	Point origin = Point(A->posX, A->posY);
-	Point destiny = Point(B->posX, B->posY);
-	line(imgLine, origin, destiny, color, 2);
-}
-
-void BodyCapture::setMainDepth(float B) {
-	mainDepth = B;
-}
-*/

@@ -70,9 +70,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetExt>.exe</TargetExt>
+    <LibraryPath>F:\OpenCV310\install\x64\vc14\bin;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetExt>.exe</TargetExt>
+    <CodeAnalysisRuleSet>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Static Analysis Tools\Rule Sets\NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <LibraryPath>F:\OpenCV310\install\x64\vc14\bin;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -89,8 +93,8 @@
       <AdditionalIncludeDirectories>$(OPENCV_DIR)\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(OPENCV_DIR)\lib\Debug</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_core310d.lib;opencv_highgui310d.lib;opencv_imgproc310d.lib;opencv_imgcodecs310d.lib;opencv_videoio310d.lib;opencv_video310d.lib;opencv_calib3d310d.lib;opencv_videostab310d.lib;opencv_ts310d.lib;opencv_features2d310d.lib;opencv_superres310d.lib;opencv_flann310d.lib;opencv_ml310d.lib;opencv_objdetect310d.lib;opencv_photo310d.lib;opencv_shape310d.lib;opencv_stitching310d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>F:\OpenCV310\install\x64\vc14\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_core310d.lib;opencv_highgui310d.lib;opencv_imgproc310d.lib;opencv_imgcodecs310d.lib;opencv_videoio310d.lib;opencv_video310d.lib;opencv_calib3d310d.lib;opencv_videostab310d.lib;opencv_ts310d.lib;opencv_features2d310d.lib;opencv_superres310d.lib;opencv_flann310d.lib;opencv_ml310d.lib;opencv_objdetect310d.lib;opencv_photo310d.lib;opencv_shape310d.lib;opencv_stitching310d.lib;opencv_xfeatures2d310d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -118,19 +122,22 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(OPENCV_DIR)\lib\Release</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_core310.lib;opencv_highgui310.lib;opencv_imgcodecs310.lib;opencv_videoio310.lib;opencv_imgproc310.lib;opencv_video310.lib;opencv_calib3d310.lib;opencv_features2d310.lib;opencv_flann310.lib;opencv_ml310.lib;opencv_objdetect310.lib;opencv_photo310.lib;opencv_shape310.lib;opencv_stitching310.lib;opencv_superres310.lib;opencv_ts310.lib;opencv_videostab310.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>F:\OpenCV310\install\x64\vc14\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_core310.lib;opencv_highgui310.lib;opencv_imgcodecs310.lib;opencv_videoio310.lib;opencv_imgproc310.lib;opencv_video310.lib;opencv_calib3d310.lib;opencv_features2d310.lib;opencv_flann310.lib;opencv_ml310.lib;opencv_objdetect310.lib;opencv_photo310.lib;opencv_shape310.lib;opencv_stitching310.lib;opencv_superres310.lib;opencv_ts310.lib;opencv_videostab310.lib;opencv_xfeatures2d310.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BlockTypes.cpp" />
+    <ClCompile Include="ColorBlocks.cpp" />
     <ClCompile Include="ColorTracking.cpp" />
+    <ClCompile Include="PatternBlocks.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="VFunctions.cpp" />
     <ClCompile Include="VirtualBoard.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ColorBlocks.h" />
     <ClInclude Include="ColorTracking.h" />
+    <ClInclude Include="PatternBlocks.h" />
     <ClInclude Include="VFunctions.h" />
     <ClInclude Include="VirtualBoard.h" />
   </ItemGroup>

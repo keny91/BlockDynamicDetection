@@ -4,9 +4,11 @@
 
 VirtualBoard::VirtualBoard(int x, int y)
 {
+	/*
 	VerticalElements = NULL;
 	HorizontalElements = NULL;
 	BridgeElements = NULL;
+	*/
 
 	cols = x;
 	rows = y;
@@ -70,20 +72,20 @@ void VirtualBoard::FindConnectedElements(int minSize, void* TypeOfElementsArray,
 		if (theProv->typeId == (int)VerticalBlockID) {
 			_VerticalBlock thePTR = *((VerticalBlockPtr)TypeOfElementsArray);
 			VerticalElements = new _VerticalBlock[NumElements];
-			cout << "A VerticalBlock" << endl;
+			cout << "A VerticalBlock with size: " << NumElements << endl;
 		}
 		// bridge block
 		else if (theProv->typeId == (int)BridgeBlockID) {
 			_Bridge thePTR = *((BridgePtr)TypeOfElementsArray);
 			BridgeElements = new _Bridge[NumElements];
-			cout << "A Bridge" << endl;
+			cout << "A Bridge with size: " << NumElements << endl;
 
 		}
 		// Horizontal block
 		else if (theProv->typeId == (int)HorizontalBlockID) {
 			_HorizontalBlock thePTR = *((HorizontalBlockPtr)TypeOfElementsArray);
 			HorizontalElements = new _HorizontalBlock[NumElements];
-			cout << "A HorizontalBlock" << endl;
+			cout << "A HorizontalBlock with size: " << NumElements << endl;
 		}
 		else {
 			cout << "Block ID not detected, UNKNOWN BLOCK" << endl;

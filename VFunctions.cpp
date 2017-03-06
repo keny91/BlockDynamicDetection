@@ -18,8 +18,6 @@ CVFunctions::~CVFunctions()
 // Extract the edges of the given image, the thresholds have been hardcoded for this version of the code
  Mat CVFunctions::GetEdges(Mat src) {
 
-
-
 	/// Reduce noise with a kernel 3x3
 	int edgeThresh = 1;
 	int lowThreshold= 30;

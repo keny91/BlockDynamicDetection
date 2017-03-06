@@ -22,7 +22,7 @@ int main() {
 
 
 	Mat image;          //Create Matrix to store image
-	Mat capture, dst, postMorhp;
+	Mat capture, dst, postMorhp, BWimage;
 	VideoCapture cap;          //initialize capture
 	cap.open(1);
 	char* windowName = "window";
@@ -36,10 +36,46 @@ int main() {
 	Mat BlueFiltImg = Mat::zeros(image.size(), CV_8UC3);
 	Mat GreenFiltImg = Mat::zeros(image.size(), CV_8UC3);
 
+	Mat testImage = imread("F:\\Descargas\\Patterns\\board_10x10.jpg", CV_LOAD_IMAGE_GRAYSCALE);
+	Mat Pattern5squares = imread("F:\\Descargas\\Patterns\\pattern2.jpg", CV_LOAD_IMAGE_GRAYSCALE);
+	Mat Pattern1squares = imread("F:\\Descargas\\Patterns\\pattern3.jpg", CV_LOAD_IMAGE_GRAYSCALE);
+	Mat Pattern3squares = imread("F:\\Descargas\\Patterns\\pattern1.jpg", CV_LOAD_IMAGE_GRAYSCALE);
+
 	// Create all possible block samples
 	_Bridge bridgeBlock = _Bridge();
 	_HorizontalBlock HBlock = _HorizontalBlock();
 	_VerticalBlock VBlock = _VerticalBlock();
+
+
+
+	int minHessian = 400;
+	//cv::xfeatures2d::SurfFeatureDetector detector = cv::xfeatures2d::create();
+	//cv::xfeatures2d::SurfFeatureDetector detector(minHessian);
+	Ptr<cv::xfeatures2d::SurfFeatureDetector> detector = cv::xfeatures2d::SurfFeatureDetector::create(minHessian);
+	cv::gpu::
+	vector<KeyPoint> keypoints_object, keypoints_scene;
+
+	detector->detect(Pattern3squares, keypoints_object);
+	detector->detect(testImage, keypoints_scene);
+
+	Mat img_keypoints_1; Mat img_keypoints_2;
+
+	drawKeypoints(Pattern3squares, keypoints_object, img_keypoints_1, Scalar::all(-1), DrawMatchesFlags::DEFAULT);
+	drawKeypoints(testImage, keypoints_scene, img_keypoints_2, Scalar::all(-1), DrawMatchesFlags::DEFAULT);
+
+	//-- Step 2: Calculate descriptors (feature vectors)
+	Ptr<cv::xfeatures2d::SurfFeatureDetector> extractor = cv::xfeatures2d::SurfFeatureDetector::create(minHessian);;
+
+	namedWindow("Surf1", 1);
+	imshow("Surf1", img_keypoints_1);
+	namedWindow("Surf2", 1);
+	imshow("Surf2", img_keypoints_2);
+
+	//Mat descriptors_object, descriptors_scene;
+
+
+	// SurfInitialization
+
 
 	//_Bridge  a;
 	//BridgeStruct a = BridgeStruct();
@@ -138,9 +174,11 @@ int main() {
 			VirtualBoard theBoard = VirtualBoard();
 			theBoard.FindConnectedElements(50, &bridgeBlock, theFilteredImage);
 
+			//ColorTracking::FilterBWbyThreshold(*testImage, &BWimage,30);
+
 			namedWindow("PostMorphologys", 1);
 			cout << "New image size: " <<croppedImage.size() << endl;
-			imshow("PostMorphologys", image);
+			//imshow("PostMorphologys", BWimage);
 		}
 	}
 
