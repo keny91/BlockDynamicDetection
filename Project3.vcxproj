@@ -130,6 +130,7 @@
     <ClCompile Include="ColorBlocks.cpp" />
     <ClCompile Include="ColorTracking.cpp" />
     <ClCompile Include="PatternBlocks.cpp" />
+    <ClCompile Include="PatternDescriptorExtractor.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="VFunctions.cpp" />
     <ClCompile Include="VirtualBoard.cpp" />
@@ -138,6 +139,7 @@
     <ClInclude Include="ColorBlocks.h" />
     <ClInclude Include="ColorTracking.h" />
     <ClInclude Include="PatternBlocks.h" />
+    <ClInclude Include="PatternDescriptorExtractor.h" />
     <ClInclude Include="VFunctions.h" />
     <ClInclude Include="VirtualBoard.h" />
   </ItemGroup>

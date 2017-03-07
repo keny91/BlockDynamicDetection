@@ -33,6 +33,9 @@
     <ClCompile Include="ColorBlocks.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
+    <ClCompile Include="PatternDescriptorExtractor.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VFunctions.h">
@@ -48,6 +51,9 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="ColorBlocks.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="PatternDescriptorExtractor.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
