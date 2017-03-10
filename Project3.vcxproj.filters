@@ -27,9 +27,6 @@
     <ClCompile Include="VirtualBoard.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="PatternBlocks.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
     <ClCompile Include="ColorBlocks.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
@@ -45,9 +42,6 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="VirtualBoard.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="PatternBlocks.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="ColorBlocks.h">

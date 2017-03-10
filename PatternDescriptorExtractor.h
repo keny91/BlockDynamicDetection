@@ -1,6 +1,7 @@
 #pragma once
 
 #include "VFunctions.h"
+#include <cmath>
 
 using namespace cv::xfeatures2d;
 using namespace std;
@@ -8,17 +9,18 @@ using namespace std;
 class PatternDescriptorExtractor
 {
 public:
-	PatternDescriptorExtractor(int minHessian = 700);
+	PatternDescriptorExtractor(Mat theObject, Mat theScene, int minHessian = 700);
 	PatternDescriptorExtractor();
 	~PatternDescriptorExtractor();
 
-	double max_dist, min_dist;
+	double max_dist, min_dist, max_physical_distance;
 
 
 protected:
 	Mat Scene, Object;
 	Mat img_keypoints_object, img_keypoints_scene;
 	Mat descriptors_object, descriptors_scene;
+	int HessianTh;
 
 	// Surf descriptor extractor
 	Ptr<cv::xfeatures2d::SurfFeatureDetector> detector; // Detector
@@ -27,11 +29,12 @@ protected:
 
 	FlannBasedMatcher matcher;
 	vector< DMatch > matches;
-	
+	 
 	vector< DMatch > good_matches;  // just the selected objects
 
 
 	void FindDescriptors();
+	void InitDetectors(int minHessian);
 	void GetMatches();
 	void DetermineGoodMatches();
 	void DetermineHomeografyOfSet();

@@ -37,7 +37,8 @@ int main() {
 	Mat GreenFiltImg = Mat::zeros(image.size(), CV_8UC3);
 
 	//Mat testImage = imread("F:\\Descargas\\Patterns\\board_10x10.jpg", CV_LOAD_IMAGE_GRAYSCALE);
-	Mat testImage = imread("F:\\Descargas\\Patterns\\board_10x10crop.jpg", CV_LOAD_IMAGE_GRAYSCALE);
+	//Mat testImage = imread("F:\\Descargas\\Patterns\\board_10x10crop.jpg", CV_LOAD_IMAGE_GRAYSCALE);
+	Mat testImage = imread("F:\\Descargas\\Patterns\\board_10x10_249_vertical.jpg", CV_LOAD_IMAGE_GRAYSCALE); 
 	//Mat testImage = imread("F:\\Descargas\\Patterns\\board_10x10cropmultiple.jpg", CV_LOAD_IMAGE_GRAYSCALE);
 	Mat Pattern5squares = imread("F:\\Descargas\\Patterns\\pattern2.jpg", CV_LOAD_IMAGE_GRAYSCALE);
 	Mat Pattern1squares = imread("F:\\Descargas\\Patterns\\pattern3.jpg", CV_LOAD_IMAGE_GRAYSCALE);
@@ -79,13 +80,15 @@ int main() {
 	matcher.match(descriptors_object, descriptors_scene, matches);
 
 	double max_dist = 0; double min_dist = 100;
+	printf("--  NumberOfmatches [%d] ---  Size of object descriptors: %d  ---  Size of Scene descriptors: %d   \n", matches.size(), descriptors_object.rows, descriptors_scene.rows);
+
 
 	//-- Quick calculation of max and min distances between keypoints
 	for (int i = 0; i < descriptors_object.rows; i++)
 	{
 		double dist = matches[i].distance;
 		if (dist < min_dist) 
-			max_dist = dist;
+			min_dist = dist;
 		if (dist > max_dist) 
 			max_dist = dist;
 	}
@@ -96,6 +99,7 @@ int main() {
 	{
 		if (matches[i].distance < 3 * min_dist)
 		{
+
 			good_matches.push_back(matches[i]);
 		}
 	}
@@ -105,6 +109,10 @@ int main() {
 		good_matches, img_matches, Scalar::all(-1), Scalar::all(-1),
 		vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
 
+	for (int i = 0; i < (int)good_matches.size(); i++)
+	{
+		printf("-- Good Match [%d] Keypoint 1: %d  -- Keypoint 2: %d  \n", i, good_matches[i].queryIdx, good_matches[i].trainIdx);
+	}
 
 	//-- Localize the object
 	std::vector<Point2f> obj;
@@ -168,7 +176,7 @@ int main() {
 		*state = 0;
 		cap >> image;          //copy webcam stream to image
 		
-
+		namedWindow(windowName, 1);
 		imshow(windowName, image);          //print image to screen
 		waitKey(33);          //delay 33ms
 		setMouseCallback(windowName, CallBackFunc, NULL);
@@ -222,11 +230,6 @@ int main() {
 			/// Create a matrix of the same type and size as src (for dst)
 			dst.create(capture.size(), capture.type());
 
-			dst = CVFunctions::GetEdges(capture);
-
-			// Vec3i a = CVFunctions::GetPixelInfo(image,  clickedX, clickedY, true);
-			//cout << "Cam Resolution: " << dst.size() << endl;
-			namedWindow(captureName, 1);
 
 
 			// get HSV value of pixel
@@ -247,7 +250,7 @@ int main() {
 			CVFunctions::MorphologyOpenMat(&theFilteredImage, &theFilteredImage, 10);
 
 
-			VirtualBoard theBoard = VirtualBoard();
+			VirtualBoard theBoard = VirtualBoard(theFilteredImage,10,10);
 			theBoard.FindConnectedElements(50, &bridgeBlock, theFilteredImage);
 
 			//ColorTracking::FilterBWbyThreshold(*testImage, &BWimage,30);

@@ -2,7 +2,26 @@
 
 
 
-VirtualBoard::VirtualBoard(int x, int y)
+void BoardNode::InitNode(int x, int y, int xDim, int yDim, Size t) {
+	xPos = x;
+	yPos = y;
+
+
+	constrainsStart[0] =(t.width / xDim)*x;
+	constrainsStart[1] = (t.height / yDim)*y;
+
+	constrainsEnd[0] = (t.width / xDim)*x + (t.width / xDim);
+	constrainsEnd[1] = (t.height / yDim)*y + (t.height / yDim);
+
+	totalSurface = (t.width / xDim) * (t.height / yDim);
+
+}
+
+/// <summary>
+/// Constructor that specifies the source image, and the number of horizontal and vertical divisions for the board.
+/// </summary>
+/// <param name="minSize">Minimum size of the element to be considered as an object</param>
+VirtualBoard::VirtualBoard(Mat sampleImage, int x, int y)
 {
 	/*
 	VerticalElements = NULL;
@@ -12,12 +31,18 @@ VirtualBoard::VirtualBoard(int x, int y)
 
 	cols = x;
 	rows = y;
-
+	pixelPerCol = (int)sampleImage.cols / x;
+	pixelPerRow = (int)sampleImage.rows / y;
 
 	// Initialize the board
 	NodeList = new _BoardNode*[y];
-	for (int i = 0; i < y; ++i)
+	for (int i = 0; i < y; ++i) {
 		NodeList[i] = new _BoardNode[x];
+		for (int j = 0; j < x; j++)
+			NodeList[i][j].InitNode(j, i, x, y, sampleImage.size());   // MAY BE WRONG
+	}
+		
+
 
 
 }
@@ -28,7 +53,12 @@ VirtualBoard::~VirtualBoard()
 }
 
 
-
+/// <summary>
+/// Determine the number of objects and their type of element we are classifying
+/// </summary>
+/// <param name="minSize">Minimum size of the element to be considered as an object</param>
+/// <param name="TypeOfElementsArray">Specification of the type of block</param>
+/// <param name="ColorSegmentedImage">Image filtered by a certain criteria already, is a binary source.</param>
 void VirtualBoard::FindConnectedElements(int minSize, void* TypeOfElementsArray, Mat ColorSegmentedImage) {
 
 	
@@ -96,4 +126,19 @@ void VirtualBoard::FindConnectedElements(int minSize, void* TypeOfElementsArray,
 }
 
 
+/// <summary>
+/// Determine the surface populated in a particular node.
+/// </summary>
+/// <param name="_BoardNode theNode">Node Under Examination</param>
+void VirtualBoard::SetNodeOccupiedSurface(_BoardNode theNode) {
+	theNode.FilledSurface = 0;
+	int pixelAtCol;
+	for (int i = theNode.constrainsStart[0]; i < cols; i++) {
+		for (int j = theNode.constrainsStart[1]; j < theNode.constrainsEnd[1]; j++) {
+			if (ImageTaken.at<int>(i, j) == OccupiedValue)
+				theNode.FilledSurface++;
+		}
+	}
+
+}
 
